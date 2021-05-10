@@ -10,6 +10,7 @@ from esphome.const import (
     CONF_LAMBDA,
     CONF_MODEL,
     CONF_PAGES,
+    CONF_RESET_DURATION,
     CONF_RESET_PIN,
 )
 
@@ -81,6 +82,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_BUSY_PIN): pins.gpio_input_pin_schema,
             cv.Optional(CONF_FULL_UPDATE_EVERY): cv.uint32_t,
+            cv.Optional(CONF_RESET_DURATION): cv.uint32_t,
         }
     )
     .extend(cv.polling_component_schema("1s"))
@@ -121,3 +123,5 @@ def to_code(config):
         cg.add(var.set_busy_pin(reset))
     if CONF_FULL_UPDATE_EVERY in config:
         cg.add(var.set_full_update_every(config[CONF_FULL_UPDATE_EVERY]))
+    if CONF_RESET_DURATION in config:
+        cg.add(var.set_reset_duration(config[CONF_RESET_DURATION]))
